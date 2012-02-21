@@ -28,6 +28,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 
+/**
+ * Provides a simple http interface over a key based routing network.
+ * 
+ * @author eyal.kibbar@gmail.com
+ *
+ */
 public class HttpConnector {
 
 	
@@ -70,11 +76,17 @@ public class HttpConnector {
 		this.connProvider = connProvider;
 	}
 	
+	/**
+	 * Binds the tcp socket
+	 */
 	public void bind() {
 		srvScok.get();
 	}
 	
 	
+	/**
+	 * Starts the server
+	 */
 	public void start() {
 		new Thread(new Runnable() {
 			@Override
@@ -107,11 +119,23 @@ public class HttpConnector {
 		}).start();
 	}
 	
+	/**
+	 * Registers a handler
+	 * @param pattern http request handler (can be *)
+	 * @param handler the provided handler for incoming requests
+	 */
 	public void register(String pattern, HttpRequestHandler handler) {
 		//System.out.println("registering pattern "+pattern);
 		registry.register(pattern, handler);
 	}
 	
+	/**
+	 * Sends a http request to a node in the key based routing network
+	 * @param to the destination node
+	 * @param req the http request
+	 * @return the destination node's response
+	 * @throws IOException in case of connection error or some other tcp or http error
+	 */
 	public HttpResponse send(Node to, HttpRequest req) throws IOException {
 		HttpHost host = new HttpHost(to.getInetAddress().getHostAddress(), to.getPort(scheme));
 		

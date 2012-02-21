@@ -51,13 +51,18 @@ public class HttpConnectorModule extends AbstractModule {
 		Properties defaultProps = new Properties();
 		
 		// testing params, DONT TOUCH !!!
-		
+		// scheme name
+		defaultProps.setProperty("httpconnector.scheme", "http");
+				
+				
 		// performance
+		// number of server threads
 		defaultProps.setProperty("httpconnector.executor.nrthread", "1");
 		
 		// config, plz touch
+		// port for opening the tcp socket on
 		defaultProps.setProperty("httpconnector.net.port", "2345");
-		defaultProps.setProperty("httpconnector.scheme", "http");
+		
 		
 		return defaultProps;
 	}
